@@ -306,7 +306,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\Users\sinsi\Desktop\Coding Test\main.cpp" />
-    <ClCompile Include="C:\Users\sinsi\Desktop\Coding Test\abc.cpp" />
+    <ClCompile Include="C:\Users\sinsi\Desktop\Coding Test\NewSolutionTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="C:\Users\sinsi\Desktop\Coding Test\build\ZERO_CHECK.vcxproj">

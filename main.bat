@@ -2,18 +2,19 @@
 
 set Option=%1
 
+setlocal enabledelayedexpansion
 IF "%Option%"=="-h" (
     echo    -n { New Solution Name }
     echo    -b { Solution Name } { Test Input File Name } { Argument Keyword } { Answer Keyword }
 ) ELSE IF "%Option%"=="-n" (
     set SolutionName=%2
-    if not exist %SolutionName%.cpp (
-        copy Origin.const %SolutionName%.cpp
+    if not exist !SolutionName!.cpp (
+        copy Origin.const !SolutionName!.cpp
     )
-    code %SolutionName%.cpp
+    code !SolutionName!.cpp
 ) ELSE IF "%Option%"=="-b" (
     set SolutionName=%2
-    "C:\Program Files\CMake\bin\cmake.EXE" -D TestName:STRING=%SolutionName% -B "c:/Users/sinsi/Desktop/Coding Test/build"
+    "C:\Program Files\CMake\bin\cmake.EXE" -D TestName:STRING=!SolutionName! -B "c:/Users/sinsi/Desktop/Coding Test/build"
     "C:\Program Files\CMake\bin\cmake.EXE" --build "c:/Users/sinsi/Desktop/Coding Test/build" --config Debug --target ALL_BUILD -j 6
 
     set True="True"
@@ -24,19 +25,18 @@ IF "%Option%"=="-h" (
     set Argument=%4
     set Answer=%5
     set "Status="
-    setlocal enabledelayedexpansion
     set "allLines="
-    for /f "tokens=* delims=" %%a in (%TestInputFileName%) do (
+    for /f "tokens=* delims=" %%a in (!TestInputFileName!.ini) do (
         set "Variable=%%a"
 
-        IF !Variable!==%Argument% (
-            set "Status=%Argument%"
-        ) ELSE IF !Variable!==%Answer% (
-            set "Status=%Answer%"
+        IF "!Variable!"=="!Argument!" (
+            set "Status=!Argument!"
+        ) ELSE IF "!Variable!"=="!Answer!" (
+            set "Status=!Answer!"
         ) ELSE (
-            IF !Status!==%Argument% (
+            IF "!Status!"=="!Argument!" (
                 set "allLines=!allLines! %%a"
-            ) ELSE IF !Status!==%Answer% (
+            ) ELSE IF "!Status!"=="!Answer!" (
                 @echo on
                 echo Result
                 ( echo !allLines! | .\build\Debug\CodingTest.exe )
@@ -53,5 +53,5 @@ IF "%Option%"=="-h" (
             )
         )
     )
-    endlocal
 )
+endlocal
