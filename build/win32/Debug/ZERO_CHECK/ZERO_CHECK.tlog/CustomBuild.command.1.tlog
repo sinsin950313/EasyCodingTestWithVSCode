@@ -1,0 +1,10 @@
+^C:\USERS\SINSI\DESKTOP\CODING TEST\BUILD\CMAKEFILES\57B0AFF57A8B1299868E2CF319A6718F\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/sinsi/Desktop/Coding Test" "-BC:/Users/sinsi/Desktop/Coding Test/build" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "C:/Users/sinsi/Desktop/Coding Test/build/CodingTest.sln"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
