@@ -56,7 +56,9 @@ main -r { Solution Name }
 ini파일이 미리 작성되어 있어야 합니다.
 
 # ini File
+
 ![](/images/300192609-96ea59b0-1992-42b2-aeb4-8fcfaa7b9627.PNG)
+
 Test를 수행할 Sample들을 저장하는 파일입니다.
 
 ini를 확장자로 사용하고, cpp와 이름이 동일해야합니다.
