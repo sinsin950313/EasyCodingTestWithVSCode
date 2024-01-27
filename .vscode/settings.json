@@ -1,7 +1,10 @@
 {
     "cmake.debugConfig": {
         "args" : [
-            "aaa",
+            "2", "1", "1", "1", "abc"
         ]
+    },
+    "files.associations": {
+        "ios": "cpp"
     }
 }

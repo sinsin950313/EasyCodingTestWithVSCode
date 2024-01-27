@@ -1,5 +1,8 @@
 @echo off
 
+set Argument=Arg
+set Answer=Ans
+
 set Option=%1
 
 setlocal enabledelayedexpansion
@@ -10,7 +13,7 @@ IF "%Option%"=="-h" (
     echo    -b  { Solution Name }                           = Build
     echo    -d  { Solution Name } { Debuging Sample Order } = Set Debug Mode
     echo    -r  { Solution Name }                           = Run Every Samples
-    echo        { Test Input File Name }.ini : Write Arguments after "Arg" and Answers after "Ans"
+    echo        { Test Input File Name }.ini : Write Arguments after %Argument% and Answers after %Answer%
 ) ELSE IF "%Option%"=="-n" (
     set SolutionName=%2
     if not exist !SolutionName!.cpp (
@@ -26,45 +29,42 @@ IF "%Option%"=="-h" (
     cmake --build "%cd%/build" --config Debug --target ALL_BUILD -j 6
 ) ELSE IF "%Option%"=="-d" (
     echo -d
-@REM ) ELSE IF "%Option%"=="-r" (
-@REM     set True="True"
-@REM     set False="False"
-@REM     set IsParam=True
+) ELSE IF "%Option%"=="-r" (
+    set SolutionName=%2
+    set True="True"
+    set False="False"
 
-@REM     set TestInputFileName=%3
-@REM     set Argument=%4
-@REM     set Answer=%5
-@REM     set "Status="
-@REM     set "allLines="
-@REM     for /f "tokens=* delims=" %%a in (!TestInputFileName!.ini) do (
-@REM         set "Variable=%%a"
+    set IsParam=True
+    set "Status="
+    set "allLines="
+    for /f "tokens=* delims=" %%a in (.\!SolutionName!\!SolutionName!.ini) do (
+        set "Variable=%%a"
 
-@REM         IF "!Variable!"=="!Argument!" (
-@REM             set "Status=!Argument!"
-@REM         ) ELSE IF "!Variable!"=="!Answer!" (
-@REM             set "Status=!Answer!"
-@REM         ) ELSE (
-@REM             IF "!Status!"=="!Argument!" (
-@REM                 set "allLines=!allLines! %%a"
-@REM             ) ELSE IF "!Status!"=="!Answer!" (
-
-@REM                 // Able to Show Multiple Answers
-
-@REM                 @echo on
-@REM                 echo Result
-@REM                 ( echo !allLines! | .\build\Debug\CodingTest.exe )
-@REM                 @REM echo.
-@REM                 @REM echo Answer
-@REM                 @REM echo %%a
-@REM                 @REM echo.
-@REM                 @REM set "allLines="
-@REM                 @echo off
-@REM             ) Else (
-@REM                 @echo on
-@REM                 echo Status is error
-@REM                 @echo off
-@REM             )
-@REM         )
-@REM     )
+        IF "!Variable!"=="%Argument%" (
+            set "Status=%Argument%"
+        ) ELSE IF "!Variable!"=="%Answer%" (
+            set "Status=%Answer%"
+            @echo on
+            echo.
+            echo Result
+            .\build\Debug\CodingTest.exe !allLines!
+            echo.
+            set "allLines="
+            echo Answer
+            echo off
+        ) ELSE (
+            IF "!Status!"=="%Argument%" (
+                set "allLines=!allLines! %%a"
+            ) ELSE IF "!Status!"=="%Answer%" (
+                @echo on
+                echo        %%a
+                @echo off
+            ) Else (
+                @echo on
+                echo Status is error
+                @echo off
+            )
+        )
+    )
 )
 endlocal
