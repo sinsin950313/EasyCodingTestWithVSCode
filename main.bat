@@ -11,7 +11,7 @@ IF "%Option%"=="-h" (
     echo    # Without extension
     echo    -n { New Solution Name }                        = New
     echo    -b  { Solution Name }                           = Build
-    echo    -d  { Solution Name } { Debuging Sample Order } = Set Debug Mode
+    echo    -d  { Solution Name } { Debuging Sample Order } = Set Debug Mode, { Debug Sample Order } is integer.
     echo    -r  { Solution Name }                           = Run Every Samples
     echo        { Test Input File Name }.ini : Write Arguments after %Argument% and Answers after %Answer%
 ) ELSE IF "%Option%"=="-n" (

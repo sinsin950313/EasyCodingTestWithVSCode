@@ -3,6 +3,19 @@
 # VSCode에서 쉽게 Coding Test 연습하기
 백준이나 HackerRank의 경우 std::cin으로 예제를 입력받는데 Test를 위해 Build이후 직접 값을 넣어주기 번거로워서 자동화시키는 bat파일입니다.
 
+# 사전 설정
+cmake가 환경 변수에 등록되어 있어야 합니다.
+<br>
+source 이름과 ini파일 이름이 동일해야합니다.
+<br>
+확장자명 없이 파일 이름만 입력해야 합니다.
+<br>
+ini파일 내부에는 Arg, Ans을 통해 구분되며 Arg, Ans 순서가 유지되어야 합니다.
+<br>
+Debug Mode로 변경 시 { Debug Sample Order }는 정수입니다.
+<br>
+Debug Mode는 VSCode에서 cmake: Debug를 통해 호출해야 합니다.
+
 # 사용법
 cmd에서 폴더에 위치한 후
 ```
