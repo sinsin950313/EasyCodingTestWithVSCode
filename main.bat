@@ -4,8 +4,12 @@ set Option=%1
 
 setlocal enabledelayedexpansion
 IF "%Option%"=="-h" (
-    echo    -n { New Solution Name }
-    echo    -b { Solution Name } { Test Input File Name } { Argument Keyword } { Answer Keyword }
+    echo    # Without extension
+    echo    -n { New Solution Name } - New
+    echo    -b  { Solution Name } - Build
+    echo    -d  { Solution Name } { Debuging Sample Order } - Set Debug Mode
+    echo    -r  { Solution Name } - Run Every Samples
+    echo        { Test Input File Name }.ini : Write Arguments after "Arg" and Answers after "Ans"
 ) ELSE IF "%Option%"=="-n" (
     set SolutionName=%2
     if not exist !SolutionName!.cpp (
@@ -14,9 +18,11 @@ IF "%Option%"=="-h" (
     code !SolutionName!.cpp
 ) ELSE IF "%Option%"=="-b" (
     set SolutionName=%2
-    "C:\Program Files\CMake\bin\cmake.EXE" -D TestName:STRING=!SolutionName! -B "c:/Users/sinsi/Desktop/Coding Test/build"
-    "C:\Program Files\CMake\bin\cmake.EXE" --build "c:/Users/sinsi/Desktop/Coding Test/build" --config Debug --target ALL_BUILD -j 6
-
+    "C:\Program Files\CMake\bin\cmake.EXE" -D TestName:STRING=!SolutionName! -B "%cd%/build"
+    "C:\Program Files\CMake\bin\cmake.EXE" --build "%cd%/build" --config Debug --target ALL_BUILD -j 6
+) ELSE IF "%Option%"=="-d" (
+    echo -d
+) ELSE IF "%Option%"=="-r" (
     set True="True"
     set False="False"
     set IsParam=True
@@ -37,14 +43,17 @@ IF "%Option%"=="-h" (
             IF "!Status!"=="!Argument!" (
                 set "allLines=!allLines! %%a"
             ) ELSE IF "!Status!"=="!Answer!" (
+
+                // Able to Show Multiple Answers
+
                 @echo on
                 echo Result
                 ( echo !allLines! | .\build\Debug\CodingTest.exe )
-                echo.
-                echo Answer
-                echo %%a
-                echo.
-                set "allLines="
+                @REM echo.
+                @REM echo Answer
+                @REM echo %%a
+                @REM echo.
+                @REM set "allLines="
                 @echo off
             ) Else (
                 @echo on

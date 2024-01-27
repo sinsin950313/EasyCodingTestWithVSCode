@@ -1,4 +1,4 @@
-void Solve()
+int Solve()
 {
-
+    return 0;
 }
