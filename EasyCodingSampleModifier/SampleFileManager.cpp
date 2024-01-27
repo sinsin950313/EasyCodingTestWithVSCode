@@ -2,8 +2,8 @@
 #include <fstream>
 #include <iostream>
 
-const char* FSampleFileManager::Arg = "Arg\n";
-const char* FSampleFileManager::Ans = "Ans\n";
+const char* FSampleFileManager::Arg = "-Arg-\n";
+const char* FSampleFileManager::Ans = "-Ans-\n";
 
 std::string FSampleFileManager::ReadSample(std::string FilePath, int SampleNumber)
 {
@@ -31,6 +31,8 @@ std::string FSampleFileManager::ReadSample(std::string FilePath, int SampleNumbe
         size_t ToPos = Pos;
 
         Sample = Samples.substr(FromPos, ToPos - FromPos);
+
+        std::cout << "Sample" << std::endl << Sample << std::endl;
     }
     else
     {

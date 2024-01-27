@@ -1,7 +1,7 @@
 @echo off
 
-set Argument=Arg
-set Answer=Ans
+set Argument=-Arg-
+set Answer=-Ans-
 
 set Option=%1
 
@@ -28,7 +28,11 @@ IF "%Option%"=="-h" (
     cmake -D TestName:STRING=!SolutionName! -B "%cd%/build"
     cmake --build "%cd%/build" --config Debug --target ALL_BUILD -j 6
 ) ELSE IF "%Option%"=="-d" (
-    echo -d
+    set SolutionName=%2
+    set SampleOrder=%3
+    SettingModifier.exe .\.vscode\settings.json .\!SolutionName!\!SolutionName!.ini !SampleOrder!
+    cmake -D TestName:STRING=!SolutionName! -B "%cd%/build"
+    cmake --build "%cd%/build" --config Debug --target ALL_BUILD -j 6
 ) ELSE IF "%Option%"=="-r" (
     set SolutionName=%2
     set True="True"
