@@ -4,63 +4,67 @@ set Option=%1
 
 setlocal enabledelayedexpansion
 IF "%Option%"=="-h" (
+    echo    # Make Sure cmake already registered to path
     echo    # Without extension
-    echo    -n { New Solution Name } - New
-    echo    -b  { Solution Name } - Build
-    echo    -d  { Solution Name } { Debuging Sample Order } - Set Debug Mode
-    echo    -r  { Solution Name } - Run Every Samples
+    echo    -n { New Solution Name }                        = New
+    echo    -b  { Solution Name }                           = Build
+    echo    -d  { Solution Name } { Debuging Sample Order } = Set Debug Mode
+    echo    -r  { Solution Name }                           = Run Every Samples
     echo        { Test Input File Name }.ini : Write Arguments after "Arg" and Answers after "Ans"
 ) ELSE IF "%Option%"=="-n" (
     set SolutionName=%2
     if not exist !SolutionName!.cpp (
-        copy Origin.const !SolutionName!.cpp
+        mkdir !SolutionName!
+        copy .\Origin\Origin.cpp .\!SolutionName!\!SolutionName!.cpp
+        copy .\Origin\Origin.ini .\!SolutionName!\!SolutionName!.ini
     )
-    code !SolutionName!.cpp
+    cmake -D TestName:STRING=!SolutionName! -B "%cd%/build"
+    code . .\!SolutionName!\!SolutionName!.cpp .\!SolutionName!\!SolutionName!.ini
 ) ELSE IF "%Option%"=="-b" (
     set SolutionName=%2
-    "C:\Program Files\CMake\bin\cmake.EXE" -D TestName:STRING=!SolutionName! -B "%cd%/build"
-    "C:\Program Files\CMake\bin\cmake.EXE" --build "%cd%/build" --config Debug --target ALL_BUILD -j 6
+    cmake -D TestName:STRING=!SolutionName! -B "%cd%/build"
+    cmake --build "%cd%/build" --config Debug --target ALL_BUILD -j 6
 ) ELSE IF "%Option%"=="-d" (
     echo -d
-) ELSE IF "%Option%"=="-r" (
-    set True="True"
-    set False="False"
-    set IsParam=True
+@REM ) ELSE IF "%Option%"=="-r" (
+@REM     set True="True"
+@REM     set False="False"
+@REM     set IsParam=True
 
-    set TestInputFileName=%3
-    set Argument=%4
-    set Answer=%5
-    set "Status="
-    set "allLines="
-    for /f "tokens=* delims=" %%a in (!TestInputFileName!.ini) do (
-        set "Variable=%%a"
+@REM     set TestInputFileName=%3
+@REM     set Argument=%4
+@REM     set Answer=%5
+@REM     set "Status="
+@REM     set "allLines="
+@REM     for /f "tokens=* delims=" %%a in (!TestInputFileName!.ini) do (
+@REM         set "Variable=%%a"
 
-        IF "!Variable!"=="!Argument!" (
-            set "Status=!Argument!"
-        ) ELSE IF "!Variable!"=="!Answer!" (
-            set "Status=!Answer!"
-        ) ELSE (
-            IF "!Status!"=="!Argument!" (
-                set "allLines=!allLines! %%a"
-            ) ELSE IF "!Status!"=="!Answer!" (
+@REM         IF "!Variable!"=="!Argument!" (
+@REM             set "Status=!Argument!"
+@REM         ) ELSE IF "!Variable!"=="!Answer!" (
+@REM             set "Status=!Answer!"
+@REM         ) ELSE (
+@REM             IF "!Status!"=="!Argument!" (
+@REM                 set "allLines=!allLines! %%a"
+@REM             ) ELSE IF "!Status!"=="!Answer!" (
 
-                // Able to Show Multiple Answers
+@REM                 // Able to Show Multiple Answers
 
-                @echo on
-                echo Result
-                ( echo !allLines! | .\build\Debug\CodingTest.exe )
-                @REM echo.
-                @REM echo Answer
-                @REM echo %%a
-                @REM echo.
-                @REM set "allLines="
-                @echo off
-            ) Else (
-                @echo on
-                echo Status is error
-                @echo off
-            )
-        )
-    )
+@REM                 @echo on
+@REM                 echo Result
+@REM                 ( echo !allLines! | .\build\Debug\CodingTest.exe )
+@REM                 @REM echo.
+@REM                 @REM echo Answer
+@REM                 @REM echo %%a
+@REM                 @REM echo.
+@REM                 @REM set "allLines="
+@REM                 @echo off
+@REM             ) Else (
+@REM                 @echo on
+@REM                 echo Status is error
+@REM                 @echo off
+@REM             )
+@REM         )
+@REM     )
 )
 endlocal
